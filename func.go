@@ -5,6 +5,7 @@ import (
 	"encoding/base64"
 	"encoding/hex"
 	"encoding/json"
+	"errors"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/logs"
 	"github.com/skip2/go-qrcode"
@@ -114,4 +115,37 @@ func IsIP(ip string) bool {
 		return true
 	}
 	return false
+}
+
+func InArray(needle interface{}, haystack interface{}) (bool, error) {
+	E1 := errors.New("Err:Type mismatch")
+	E2 := errors.New("Err:Type unsupported")
+	switch needle.(type) {
+	case int:
+		if list, ok := haystack.([]int); ok {
+			nv := needle.(int)
+			for _, v := range list {
+				if v == nv {
+					return true, nil
+				}
+			}
+			return false, nil
+		} else {
+			return false, E1
+		}
+	case string:
+		if list, ok := haystack.([]string); ok {
+			nv := needle.(string)
+			for _, v := range list {
+				if v == nv {
+					return true, nil
+				}
+			}
+			return false, nil
+		} else {
+			return false, E1
+		}
+	default:
+		return false, E2
+	}
 }
