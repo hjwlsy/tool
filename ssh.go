@@ -1,7 +1,6 @@
 package tool
 
 import (
-	"github.com/hjwlsy/tool"
 	"golang.org/x/crypto/ssh"
 	"time"
 )
@@ -14,7 +13,7 @@ type terminal struct {
 }
 
 func NewSSH(host, username, password string, port int) (*terminal, error) {
-	host = host + ":" + tool.Int2String(port)
+	host = host + ":" + Int2String(port)
 	t := terminal{host, username, password, nil}
 	config := ssh.ClientConfig{
 		User:            t.username,
