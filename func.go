@@ -23,10 +23,10 @@ func MyMD5(str string) string {
 	bytes := []byte(str)
 	length := len(bytes)
 	mod := length & 0x3f
-	if mod >= 56 {
+	mod = 56 - mod
+	if mod <= 0 {
 		mod += 64
 	}
-	mod = 56 - mod
 	patch := make([]byte, mod+8)
 	patch[0] = 0x80
 	length <<= 3
