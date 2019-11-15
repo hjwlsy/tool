@@ -52,7 +52,7 @@ func StrToTime(format string, str string) int64 {
 	for k, v := range TimeMap {
 		format = strings.Replace(format, k, v, -1)
 	}
-	if t, err := time.Parse(format, str); err == nil {
+	if t, err := time.ParseInLocation(format, str, time.Local); err == nil {
 		return t.Unix()
 	} else {
 		logs.Error("StrToTime转换失败" + err.Error())
