@@ -75,3 +75,35 @@ func Time2String() string {
 func Microtime() float64 {
 	return float64(time.Now().UnixNano()/1e6) / 1e3
 }
+
+func GetYmd(timestamp uint) uint {
+	return StringToUint(Date("Ymd", timestamp))
+}
+
+func GetTimestamp(ymd uint) uint {
+	if ymd < 1 {
+		ymd = GetYmd(0)
+	}
+	timestamp := StrToTime("Ymd", Uint2String(ymd))
+	if timestamp > 0 {
+		return uint(timestamp)
+	} else {
+		return GetTimestamp(0)
+	}
+}
+
+func GetYmdBeforeDay(day uint) uint {
+	return GetYmd(Time2Uint() - 86400*day)
+}
+
+func GetYmdAfterDay(day uint) uint {
+	return GetYmd(Time2Uint() + 86400*day)
+}
+
+func GetYesterdayYmd() uint {
+	return GetYmdBeforeDay(1)
+}
+
+func GetYesterdayTime() uint {
+	return GetTimestamp(GetYesterdayYmd())
+}
