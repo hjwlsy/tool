@@ -107,3 +107,11 @@ func GetYesterdayYmd() uint {
 func GetYesterdayTime() uint {
 	return GetTimestamp(GetYesterdayYmd())
 }
+
+func GetYmdSubDay(ymd, day uint) uint {
+	return GetYmd(GetTimestamp(ymd) - 86400*day)
+}
+
+func GetYmdAddDay(ymd, day uint) uint {
+	return GetYmd(GetTimestamp(ymd) + 86400*day)
+}
