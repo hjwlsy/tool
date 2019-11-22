@@ -9,6 +9,7 @@ import (
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/logs"
 	"github.com/skip2/go-qrcode"
+	"net"
 	"regexp"
 	"strings"
 )
@@ -231,4 +232,30 @@ func InArray(needle interface{}, haystack interface{}) (bool, error) {
 	default:
 		return false, E2
 	}
+}
+
+func GetMacList() (maclist string) {
+	interfaces, err := net.Interfaces()
+	if err != nil {
+		return
+	}
+	for _, v := range interfaces {
+		if v.Flags&net.FlagUp == 0 {
+			continue
+		}
+		if v.Flags&net.FlagLoopback != 0 {
+			continue
+		}
+		mac := strings.ToUpper(v.HardwareAddr.String())
+		mac = strings.ReplaceAll(mac, ":", "")
+		if len(mac) != 12 {
+			continue
+		}
+		if maclist == "" {
+			maclist = mac
+		} else {
+			maclist += "," + mac
+		}
+	}
+	return
 }
