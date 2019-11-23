@@ -37,3 +37,25 @@ func MessageBox(title, content string, style int) (int, error) {
 	}
 	return int(n), nil
 }
+
+func GetWindowSize(a ...int) (width, height int) {
+	proc := syscall.NewLazyDLL("user32.dll").NewProc("GetSystemMetrics")
+	w, _, _ := proc.Call(0)
+	h, _, _ := proc.Call(1)
+	width, height = int(w), int(h)
+	if width < 1 {
+		if len(a) >= 1 && a[0] > 0 {
+			width = a[0]
+		} else {
+			width = 1920
+		}
+	}
+	if height < 1 {
+		if len(a) >= 2 && a[1] > 0 {
+			height = a[1]
+		} else {
+			height = 1080
+		}
+	}
+	return
+}
