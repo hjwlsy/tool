@@ -3,6 +3,7 @@ package tool
 import (
 	"os/exec"
 	"strings"
+	"syscall"
 )
 
 func Command(cmd string) (msg string, err error) {
@@ -15,7 +16,9 @@ func Command(cmd string) (msg string, err error) {
 			arg = append(arg, v)
 		}
 	}
-	gbk, err := exec.Command("cmd", arg...).CombinedOutput()
+	command := exec.Command("cmd", arg...)
+	command.SysProcAttr = &syscall.SysProcAttr{HideWindow: true}
+	gbk, err := command.CombinedOutput()
 	if len(gbk) == 0 {
 		return "", err
 	}
