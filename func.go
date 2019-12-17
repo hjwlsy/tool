@@ -9,9 +9,11 @@ import (
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/logs"
 	"github.com/skip2/go-qrcode"
+	"math/rand"
 	"net"
 	"regexp"
 	"strings"
+	"time"
 )
 
 func MD5(text string) string {
@@ -256,6 +258,18 @@ func GetMacList() (maclist string) {
 		} else {
 			maclist += "," + mac
 		}
+	}
+	return
+}
+
+func Random(n int) (s string) {
+	const l = "0123456789" +
+		"ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
+		"abcdefghijklmnopqrstuvwxyz"
+	rand.Seed(time.Now().Unix())
+	for i := 0; i < n; i++ {
+		idx := rand.Intn(62)
+		s += string(l[idx])
 	}
 	return
 }
