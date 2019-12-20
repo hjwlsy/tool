@@ -1,7 +1,7 @@
 package tool
 
 import (
-	"github.com/360EntSecGroup-Skylar/excelize"
+	"github.com/360EntSecGroup-Skylar/excelize/v2"
 	"time"
 )
 
