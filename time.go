@@ -115,3 +115,44 @@ func GetYmdSubDay(ymd, day uint) uint {
 func GetYmdAddDay(ymd, day uint) uint {
 	return GetYmd(GetTimestamp(ymd) + 86400*day)
 }
+
+var months = map[string]int{
+	"January":   1,
+	"February":  2,
+	"March":     3,
+	"April":     4,
+	"May":       5,
+	"June":      6,
+	"July":      7,
+	"August":    8,
+	"September": 9,
+	"October":   10,
+	"November":  11,
+	"December":  12,
+}
+
+var weeks = map[string]int{
+	"Sunday":    0,
+	"Monday":    1,
+	"Tuesday":   2,
+	"Wednesday": 3,
+	"Thursday":  4,
+	"Friday":    5,
+	"Saturday":  6,
+}
+
+func TimestampConvert(timestamp uint) []int {
+	if timestamp < 1 {
+		timestamp = Time2Uint()
+	}
+	date := time.Unix(int64(timestamp), 0)
+	y, m := date.Year(), months[date.Month().String()]
+	d, w := date.Day(), weeks[date.Weekday().String()]
+	ret := make([]int, 5)
+	ret[4] = y
+	ret[3] = y*100 + (m-1)/3*3 + 1
+	ret[2] = y*100 + m
+	ret[1] = int(GetYmd(timestamp - 86400*uint(w)))
+	ret[0] = ret[2]*100 + d
+	return ret
+}
