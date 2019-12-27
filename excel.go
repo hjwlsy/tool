@@ -30,6 +30,7 @@ func ExcelExport(data []map[string]interface{}, fields Fields, title string) (fi
 	}
 	f := excelize.NewFile()
 	f.SetSheetName(f.GetSheetName(f.GetActiveSheetIndex()), title)
+	_ = f.SetColWidth(title, "A", "XFD", 24)
 	fmap := map[string]int{}
 	for i, field := range fields {
 		_ = f.SetCellValue(title, ExcelColumn(1, i+1), field.Header)
@@ -46,7 +47,7 @@ func ExcelExport(data []map[string]interface{}, fields Fields, title string) (fi
 	if err = f.SaveAs(filename); err != nil {
 		return "", "", err
 	} else {
-		return filename, title + Date("Y-m-d_H:i:s") + ".xlsx", nil
+		return filename, title + Date("_Y-m-d_H-i-s") + ".xlsx", nil
 	}
 }
 
