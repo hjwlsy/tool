@@ -156,3 +156,30 @@ func TimestampConvert(timestamp uint) []int {
 	ret[0] = ret[2]*100 + d
 	return ret
 }
+
+func IsLeapYear(y int) bool {
+	if y%4 == 0 && y%100 != 0 || y%400 == 0 {
+		return true
+	}
+	return false
+}
+
+func GetMonthDay(y, m int) int {
+	if m == 2 {
+		if IsLeapYear(y) {
+			return 29
+		} else {
+			return 28
+		}
+	}
+	if m == 4 || m == 6 || m == 9 || m == 11 {
+		return 30
+	}
+	return 31
+}
+
+func GetWeekByDay(ymd string) int {
+	timestamp := StrToTime("Ymd", ymd)
+	date := time.Unix(timestamp, 0)
+	return weeks[date.Weekday().String()]
+}
